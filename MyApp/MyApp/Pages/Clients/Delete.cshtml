@@ -6,7 +6,7 @@
 @{
     try
     {
-        String connectionString = "Data Source=.\\SQLEXPRESS07;Initial Catalog=myapp;Integrated Security=True";
+        String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["myAppDBCS"].ConnectionString;
         String id = Request.Query["id"];
         using (SqlConnection connection = new SqlConnection(connectionString))
         {

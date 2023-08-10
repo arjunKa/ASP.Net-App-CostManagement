@@ -3,4 +3,6 @@
 # dependencies
 /MyApp/MyApp/bin
 /MyApp/MyApp/obj
+/MyApp/.vs
 
+/MyApp/App.config

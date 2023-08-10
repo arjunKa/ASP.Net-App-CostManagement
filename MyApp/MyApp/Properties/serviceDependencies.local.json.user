@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "restored": true,
+      "restoreTime": "2023-08-08T07:19:36.6212031Z"
+    },
+    "secrets1": {
+      "restored": true,
+      "restoreTime": "2023-08-08T07:19:01.6404412Z"
+    }
+  },
+  "parameters": {
+    "mssql1.subscriptionId": {
+      "Name": "mssql1.subscriptionId",
+      "Type": "subscription",
+      "Value": "598818b5-b820-4043-9b94-0857b40ace6c"
+    },
+    "mssql1.resourceGroupName": {
+      "Name": "mssql1.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "EmployeeRecordRG"
+    }
+  }
+}

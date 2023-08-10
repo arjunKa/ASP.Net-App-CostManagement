@@ -1,0 +1,16 @@
+﻿@page
+@model MyApp.Pages.Account.IndexModel
+@{
+}
+
+<br />
+
+@if (Model.username.Length == 0)
+{
+	<a class="btn btn-primary btn-sm" href="/Account/UserLogin">Login</a>
+	<a class="btn btn-primary btn-sm" href="/Account/Register">Register</a>
+} else
+{
+	<h2>Hello @Model.username! </h2>
+
+}

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data.SqlClient;
+using System.Configuration;
 using System.Diagnostics.Contracts;
 
 namespace MyApp.Pages.Clients
@@ -12,7 +13,8 @@ namespace MyApp.Pages.Clients
         {
             try
             {
-                String connectionString = "Data Source=.\\SQLEXPRESS07;Initial Catalog=myapp;Integrated Security=True";
+                String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["myAppDBCS"].ConnectionString;
+                Console.WriteLine(connectionString);
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
@@ -29,7 +31,7 @@ namespace MyApp.Pages.Clients
                                 clientInfo.email = reader.GetString(2);
                                 clientInfo.phone = reader.GetString(3);
                                 clientInfo.address = reader.GetString(4);
-                                clientInfo.created_at = reader.GetDateTime(5).ToString();
+                                clientInfo.created_at = reader.GetDateTime(5).ToLocalTime().ToString();
                                 listClients.Add(clientInfo);
 
                             }

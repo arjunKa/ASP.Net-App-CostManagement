@@ -16,8 +16,8 @@ namespace MyApp.Pages.Clients
 
             try
             {
-				String connectionString = "Data Source=.\\SQLEXPRESS07;Initial Catalog=myapp;Integrated Security=True";
-				using (SqlConnection connection = new SqlConnection(connectionString))
+                String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["myAppDBCS"].ConnectionString;
+                using (SqlConnection connection = new SqlConnection(connectionString))
 				{
 					connection.Open();
 					String sql = "SELECT * FROM clients WHERE id=@id";
@@ -68,7 +68,7 @@ namespace MyApp.Pages.Clients
 			try
 			{
 
-				String connectionString = "Data Source=.\\SQLEXPRESS07;Initial Catalog=myapp;Integrated Security=True";
+				String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["myAppDBCS"].ConnectionString;
 				using (SqlConnection connection = new SqlConnection(connectionString))
 				{
 					connection.Open();
