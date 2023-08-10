@@ -1,11 +1,11 @@
 ﻿@page
-@model MyApp.Pages.Account.UserLoginModel
+@model MyApp.Pages.Account.AdminLoginModel
 @{
 }
 
 
 <br />
-<h2>User Login</h2>
+<h2>Admin User Login</h2>
 
 @if (Model.errorMessage.Length > 0)
 {
@@ -54,7 +54,7 @@
 
 	<br/>
 
-	<a href="/Account/AdminLogin">Admin Login</a>
+	<a href="/Account/UserLogin">Go Back</a>
 
 
 </form>

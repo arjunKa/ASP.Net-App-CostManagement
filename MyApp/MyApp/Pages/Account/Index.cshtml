@@ -7,10 +7,19 @@
 
 @if (Model.username.Length == 0)
 {
-	<a class="btn btn-primary btn-sm" href="/Account/UserLogin">Login</a>
-	<a class="btn btn-primary btn-sm" href="/Account/Register">Register</a>
+	<div class="align-items-lg-stretch">
+	<a class="btn btn-primary btn-lg" href="/Account/UserLogin">Login</a>
+	<a class="btn btn-primary btn-lg" href="/Account/Register">Register</a>
+	</div>
 } else
 {
-	<h2>Hello @Model.username! </h2>
+	<h1>Hello @Model.username!</h1>
+
+	<br/>
+	<form method="post" >
+		<input type="submit" value="Logout" name="Action" />
+	</form>
+	
+
 
 }

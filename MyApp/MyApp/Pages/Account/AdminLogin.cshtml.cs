@@ -7,13 +7,11 @@ using Microsoft.AspNetCore.Http;
 
 namespace MyApp.Pages.Account
 {
-    public class UserLoginModel : PageModel
+    public class AdminLoginModel : PageModel
     {
 		public UserInfo userInfo = new UserInfo();
 		public String errorMessage = "";
 		public String successMessage = "";
-
-
 
 		public void OnGet()
 		{
@@ -36,7 +34,7 @@ namespace MyApp.Pages.Account
 				using (SqlConnection connection = new SqlConnection(connectionString))
 				{
 					connection.Open();
-					String sql = "SELECT * FROM users WHERE " +
+					String sql = "SELECT * FROM admin_users WHERE " +
 						"username = @username " + "AND password = @password";
 
 					using (SqlCommand command = new SqlCommand(sql, connection))
@@ -52,7 +50,7 @@ namespace MyApp.Pages.Account
 							{
 								
 								HttpContext.Session.SetString("username", userInfo.username);
-								HttpContext.Session.SetString("role", "user");
+								HttpContext.Session.SetString("role", "admin");
 
 							}
 						} else

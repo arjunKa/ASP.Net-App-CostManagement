@@ -6,10 +6,13 @@ namespace MyApp.Pages.Account
     public class IndexModel : PageModel
     {
         public String username = "";
-        public void OnGet()
+
+		[BindProperty]
+		public string Action { get; set; }
+		public void OnGet()
         {
 
-            if(HttpContext.Session.GetString("role")!= null && HttpContext.Session.GetString("role").Equals("user"))
+            if(HttpContext.Session.GetString("role")!= null)
             {
 				username = HttpContext.Session.GetString("username");
 			}
@@ -17,12 +20,27 @@ namespace MyApp.Pages.Account
 
 		}
 
-		public void loadGuestPage()
-		{
 
+		
+		public void OnPost()
+		{
+			//String answer = "Logout";
+			switch (Action) 
+			{
+				case "Logout":
+					username = "";
+					HttpContext.Session.Clear();
+					Response.Redirect("/Index");
+					
+			
+					break;
+
+			}
 
 
 		}
+
+
 
 	}
 
