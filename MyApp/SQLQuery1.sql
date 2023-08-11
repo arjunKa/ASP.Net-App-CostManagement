@@ -15,3 +15,4 @@ VALUES
 ('Bob Marley', 'bob@gmail.com', '+111555999', 'Texas, USA'),
 ('Cristiano Ronaldo', 'cristiano.ronaldo@gmail.com', '+32447788993', 'Manchester, England'),
 ('Boris Johnson', 'boris.johnson@gmail.com', '+4499778855', 'London, England');
+

@@ -20,3 +20,15 @@ CREATE TABLE admin_users (
 INSERT INTO admin_users (username, password)
 VALUES
 ('arjun', 'king')
+use Billing_db
+CREATE TABLE billings (
+    id INT NOT NULL  IDENTITY,
+	username VARCHAR (15) NOT NULL,
+    bill_name VARCHAR (50) NOT NULL,
+	service VARCHAR (50) NULL,
+	cost DECIMAL (5,2) NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (username, id),
+	FOREIGN KEY (username) REFERENCES users(username)
+
+);

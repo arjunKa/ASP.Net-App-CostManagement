@@ -4,34 +4,40 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Diagnostics.Contracts;
 
-namespace MyApp.Pages.Clients
+namespace MyApp.Pages.Entries
 {
     public class IndexModel : PageModel
     {
-        public List<ClientInfo> listClients = new List<ClientInfo>();
+        public List<BillingInfo> listClients = new List<BillingInfo>();
+        public string? username;
+        public string? role;
         public void OnGet()
         {
-            try
+            username = HttpContext.Session.GetString("username");
+			role = HttpContext.Session.GetString("role");
+			try
             {
                 String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["myAppDBCS"].ConnectionString;
                 Console.WriteLine(connectionString);
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    String sql = "SELECT * FROM clients";
+                    String sql = "SELECT * FROM billings WHERE username = @username";
                     using(SqlCommand command = new SqlCommand(sql, connection))
                     {
-                        using (SqlDataReader reader = command.ExecuteReader())
+						command.Parameters.AddWithValue("@username", username);
+						
+						using (SqlDataReader reader = command.ExecuteReader())
                         {
                             while (reader.Read())
                             {
-                                ClientInfo clientInfo = new ClientInfo();
+                                BillingInfo clientInfo = new BillingInfo();
                                 clientInfo.Id = "" + reader.GetInt32(0);
-                                clientInfo.Name = reader.GetString(1);
-                                clientInfo.email = reader.GetString(2);
-                                clientInfo.phone = reader.GetString(3);
-                                clientInfo.address = reader.GetString(4);
+                                clientInfo.Name = reader.GetString(2);
+                                clientInfo.service = reader.GetString(3);
+                                clientInfo.cost = reader.GetDecimal(4);
                                 clientInfo.created_at = reader.GetDateTime(5).ToLocalTime().ToString();
+								
                                 listClients.Add(clientInfo);
 
                             }
@@ -48,13 +54,12 @@ namespace MyApp.Pages.Clients
         }
     }
 
-    public class ClientInfo
+    public class BillingInfo
     {
         public String Id;
         public String Name;
-        public String email;
-        public String phone;
-        public String address;
+        public decimal cost;
+        public String service;
         public String created_at;
 	}
 }

@@ -1,10 +1,11 @@
 ﻿@page
-@model MyApp.Pages.Clients.CreateModel
+@model MyApp.Pages.Entries.CreateModel
 @{
+	ViewData["Title"] = "Create -";
 }
 
 <br />
-<h2>New Client</h2>
+<h2>New Entry</h2>
 
 @if (Model.errorMessage.Length > 0)
 {
@@ -23,23 +24,18 @@
 		</div>
 	</div>
 	<div class="row mb-3">
-		<label class="col-sm-3 col-form-label">Email</label>
+		<label class="col-sm-3 col-form-label">Service</label>
 		<div class="col-sm-6">
-			<input type="text" class="form-control" name="email" value="@Model.clientInfo.email" />
+			<input type="text" class="form-control" name="service" value="@Model.clientInfo.service" />
 		</div>
 	</div>
 	<div class="row mb-3">
-		<label class="col-sm-3 col-form-label">Phone</label>
+		<label class="col-sm-3 col-form-label">Cost</label>
 		<div class="col-sm-6">
-			<input type="text" class="form-control" name="phone" value="@Model.clientInfo.phone" />
+			<input type="text" class="form-control" name="cost" value="@Model.clientInfo.cost" />
 		</div>
 	</div>
-	<div class="row mb-3">
-		<label class="col-sm-3 col-form-label">Address</label>
-		<div class="col-sm-6">
-			<input type="text" class="form-control" name="address" value="@Model.clientInfo.address" />
-		</div>
-	</div>
+
 
 	@if (Model.successMessage.Length > 0)
 	{

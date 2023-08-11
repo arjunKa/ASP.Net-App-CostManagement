@@ -2,27 +2,29 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data.SqlClient;
 
-namespace MyApp.Pages.Clients
+namespace MyApp.Pages.Entries
 {
     public class CreateModel : PageModel
     {
-        public ClientInfo clientInfo = new ClientInfo();
+        public BillingInfo clientInfo = new BillingInfo();
         public String errorMessage = "";
         public String successMessage = "";
+        public String username;
 
         public void OnGet()
         {
-        }
+			username = HttpContext.Session.GetString("username");
+		}
 
         public void OnPost()
         {
-            clientInfo.Name = Request.Form["name"];
-            clientInfo.email = Request.Form["email"];
-            clientInfo.phone = Request.Form["phone"];
-            clientInfo.address = Request.Form["address"];
+			username = HttpContext.Session.GetString("username");
+			clientInfo.Name = Request.Form["name"];
+            clientInfo.cost = decimal.Parse(Request.Form["cost"]);
+            clientInfo.service = Request.Form["service"];
 
-            if (clientInfo.address.Length == 0 || clientInfo.Name.Length ==0 || clientInfo.phone.Length ==0 ||
-                clientInfo.email.Length ==0)
+
+            if (clientInfo.Name.Length == 0)
             {
                 errorMessage = "All fields are required.";
                 return;
@@ -34,16 +36,16 @@ namespace MyApp.Pages.Clients
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    String sql = "INSERT INTO clients " +
-                        "(name, email, phone, address) VALUES " +
-                        "(@name, @email, @phone, @address);";
+                    String sql = "INSERT INTO billings " +
+                        "(username, bill_name, service, cost) VALUES " +
+                        "(@username, @name, @service, @cost);";
 
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@name", clientInfo.Name);
-						command.Parameters.AddWithValue("@email", clientInfo.email);
-						command.Parameters.AddWithValue("@phone", clientInfo.phone);
-						command.Parameters.AddWithValue("@address", clientInfo.address);
+						command.Parameters.AddWithValue("@username", username);
+						command.Parameters.AddWithValue("@service", clientInfo.service);
+						command.Parameters.AddWithValue("@cost", clientInfo.cost);
 
                         command.ExecuteNonQuery();
 					}
@@ -56,7 +58,7 @@ namespace MyApp.Pages.Clients
                 return;
             }
 
-            clientInfo.Name = ""; clientInfo.phone = ""; clientInfo.address = ""; clientInfo.email = "";
+            clientInfo.Name = ""; clientInfo.service = ""; clientInfo.cost = 0.0M;
             successMessage = "New Client added successfully.";
 
             Response.Redirect("/Clients/Index");

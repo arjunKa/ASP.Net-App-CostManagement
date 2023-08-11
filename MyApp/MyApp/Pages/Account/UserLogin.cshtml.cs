@@ -13,6 +13,8 @@ namespace MyApp.Pages.Account
 		public String errorMessage = "";
 		public String successMessage = "";
 
+		public String username { get; set; }
+		public String password { get; set; }
 
 
 		public void OnGet()
@@ -21,10 +23,10 @@ namespace MyApp.Pages.Account
 
 		public void OnPost()
 		{
-			userInfo.username = Request.Form["username"];
-			userInfo.password = Request.Form["password"];
+			username = Request.Form["username"];
+			password = Request.Form["password"];
 
-			if (userInfo.username.Length == 0 || userInfo.password.Length == 0)
+			if (username.Length == 0 || password.Length == 0)
 			{
 				errorMessage = "All fields are required.";
 				return;
@@ -42,8 +44,8 @@ namespace MyApp.Pages.Account
 					using (SqlCommand command = new SqlCommand(sql, connection))
 					{
 
-						command.Parameters.AddWithValue("@username", userInfo.username);
-						command.Parameters.AddWithValue("@password", userInfo.password);
+						command.Parameters.AddWithValue("@username", username);
+						command.Parameters.AddWithValue("@password", password);
 						SqlDataReader dr = command.ExecuteReader();
 
 						if(dr.HasRows)
@@ -51,7 +53,7 @@ namespace MyApp.Pages.Account
 							if (dr.Read())
 							{
 								
-								HttpContext.Session.SetString("username", userInfo.username);
+								HttpContext.Session.SetString("username", username);
 								HttpContext.Session.SetString("role", "user");
 
 							}
@@ -71,7 +73,7 @@ namespace MyApp.Pages.Account
 				return;
 			}
 
-			userInfo.username = ""; userInfo.email = ""; userInfo.password = "";
+			username = ""; password = "";
 			successMessage = "User logged in successfully.";
 
 			Response.Redirect("/Account/Index");

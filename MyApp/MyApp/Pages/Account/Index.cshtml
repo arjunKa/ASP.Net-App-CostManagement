@@ -1,8 +1,10 @@
 ﻿@page
 @model MyApp.Pages.Account.IndexModel
 @{
+	ViewData["Title"] = "Account -";
 }
 
+<h1>Account</h1>
 <br />
 
 @if (Model.username.Length == 0)
@@ -17,7 +19,7 @@
 
 	<br/>
 	<form method="post" >
-		<input type="submit" value="Logout" name="Action" />
+		<input type="submit" value="Logout" name="Action" class="btn btn-primary btn-sm" />
 	</form>
 	
 

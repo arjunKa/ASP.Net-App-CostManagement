@@ -3,37 +3,40 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data.SqlClient;
 using System.Reflection.PortableExecutable;
 
-namespace MyApp.Pages.Clients
+namespace MyApp.Pages.Entries
 {
     public class EditModel : PageModel
     {
-		public ClientInfo clientInfo = new ClientInfo();
+		public BillingInfo clientInfo = new BillingInfo();
 		public String errorMessage = "";
 		public String successMessage = "";
+		public String username;
 		public void OnGet()
         {
             String id = Request.Query["id"];
+			username = HttpContext.Session.GetString("username");
 
-            try
+			try
             {
                 String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["myAppDBCS"].ConnectionString;
                 using (SqlConnection connection = new SqlConnection(connectionString))
 				{
 					connection.Open();
-					String sql = "SELECT * FROM clients WHERE id=@id";
+					String sql = "SELECT * FROM billings WHERE username=@username AND id=@id";
 
 					using (SqlCommand command = new SqlCommand(sql, connection))
 					{
 						command.Parameters.AddWithValue("@id", id);
+						command.Parameters.AddWithValue("@username", username);
 						using (SqlDataReader reader = command.ExecuteReader())
 						{
 							if(reader.Read())
 							{
 								clientInfo.Id = "" + reader.GetInt32(0);
-								clientInfo.Name = reader.GetString(1);
-								clientInfo.email = reader.GetString(2);
-								clientInfo.phone = reader.GetString(3);
-								clientInfo.address = reader.GetString(4);
+								clientInfo.Name = reader.GetString(2);
+								clientInfo.service = reader.GetString(3);
+								clientInfo.cost = reader.GetDecimal(4);
+								
 
 							}
 
@@ -51,14 +54,15 @@ namespace MyApp.Pages.Clients
         }
 		public void OnPost()
 		{
+			username = HttpContext.Session.GetString("username");
 			clientInfo.Id = Request.Form["id"];
 			clientInfo.Name = Request.Form["name"];
-			clientInfo.email = Request.Form["email"];
-			clientInfo.phone = Request.Form["phone"];
-			clientInfo.address = Request.Form["address"];
+			clientInfo.service = Request.Form["service"];
+			clientInfo.cost = decimal.Parse(Request.Form["cost"]);
+			
 
-			if (clientInfo.Id.Length == 0 || clientInfo.Name.Length == 0 || clientInfo.email.Length == 0
-				|| clientInfo.phone.Length == 0 || clientInfo.address.Length == 0)
+			if (clientInfo.Id.Length == 0 || clientInfo.Name.Length == 0
+				|| clientInfo.service.Length == 0)
 			{
 				errorMessage = "All fields are required";
 				return;
@@ -72,16 +76,16 @@ namespace MyApp.Pages.Clients
 				using (SqlConnection connection = new SqlConnection(connectionString))
 				{
 					connection.Open();
-					String sql = "UPDATE clients " +
-						"SET name=@name, email=@email, address=@address, phone=@phone " +
-						"WHERE id=@id";
+					String sql = "UPDATE billings " +
+						"SET bill_name=@name, service=@service, cost=@cost " +
+						"WHERE username=@username AND id=@id";
 
 					using (SqlCommand command = new SqlCommand(sql, connection))
 					{
+						command.Parameters.AddWithValue("@username", username);
 						command.Parameters.AddWithValue("@name", clientInfo.Name);
-						command.Parameters.AddWithValue("@email", clientInfo.email);
-						command.Parameters.AddWithValue("@phone", clientInfo.phone);
-						command.Parameters.AddWithValue("@address", clientInfo.address);
+						command.Parameters.AddWithValue("@service", clientInfo.service);
+						command.Parameters.AddWithValue("@cost", clientInfo.cost);
 						command.Parameters.AddWithValue("@id", clientInfo.Id);
 
 						command.ExecuteNonQuery();

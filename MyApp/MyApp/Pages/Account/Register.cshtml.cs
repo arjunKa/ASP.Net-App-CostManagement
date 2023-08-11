@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyApp.Pages.Clients;
+using MyApp.Pages.Entries;
 using System.Data.SqlClient;
 
 namespace MyApp.Pages.Account
@@ -8,8 +8,8 @@ namespace MyApp.Pages.Account
     public class RegisterModel : PageModel
     {
 		public UserInfo userInfo = new UserInfo();
-		public String errorMessage = "";
-		public String successMessage = "";
+		public string errorMessage = "";
+		public string successMessage = "";
 
 		public void OnGet()
 		{
@@ -33,7 +33,7 @@ namespace MyApp.Pages.Account
 				using (SqlConnection connection = new SqlConnection(connectionString))
 				{
 					connection.Open();
-					String sql = "INSERT INTO users " +
+					string sql = "INSERT INTO users " +
 						"(username, email, password) VALUES " +
 						"(@username, @email, @password);";
 

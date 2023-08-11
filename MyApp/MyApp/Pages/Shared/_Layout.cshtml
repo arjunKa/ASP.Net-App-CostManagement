@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"]Billing Management</title>
+    <title>@ViewData["Title"] Billing Management</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MyApp.styles.css" asp-append-version="true" />
@@ -22,11 +22,13 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                         </li>
-
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Clients/Index">Your Database</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Entries/Index">Entries</a>
                         </li>
-                        <li class="nav-item">
+                    </ul>
+
+                    <ul class="navbar-nav" style="align-self:flex-end;">
+                        <li class="nav-item" >
                             <a class="nav-link text-dark" asp-area="" asp-page="/Account/Index">Account</a>
                         </li>
                         <li class="nav-item">
