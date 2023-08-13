@@ -10,6 +10,7 @@ namespace MyApp.Pages.Entries
         public String errorMessage = "";
         public String successMessage = "";
         public String username;
+        public int last_id=0;
 
         public void OnGet()
         {
@@ -33,12 +34,35 @@ namespace MyApp.Pages.Entries
             try
             {
                 String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["myAppDBCS"].ConnectionString;
-                using (SqlConnection connection = new SqlConnection(connectionString))
+
+
+				using (SqlConnection connection = new SqlConnection(connectionString))
+				{
+					connection.Open();
+					String sql = "SELECT TOP 1 id FROM billings WHERE username = @username  " +
+	                " ORDER BY created_at DESC;";
+
+					using (SqlCommand command = new SqlCommand(sql, connection))
+					{
+						command.Parameters.AddWithValue("@username", username);
+						using (SqlDataReader reader = command.ExecuteReader())
+						{
+							if (reader.Read())
+							{
+								last_id = reader.GetInt32(0) + 1;
+								
+							}
+
+						}
+					}
+				}
+
+				using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
                     String sql = "INSERT INTO billings " +
-                        "(username, bill_name, service, cost) VALUES " +
-                        "(@username, @name, @service, @cost);";
+                        "(username, id, bill_name, service, cost) VALUES " +
+                        "(@username, @id, @name, @service, @cost);";
 
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
@@ -46,8 +70,9 @@ namespace MyApp.Pages.Entries
 						command.Parameters.AddWithValue("@username", username);
 						command.Parameters.AddWithValue("@service", clientInfo.service);
 						command.Parameters.AddWithValue("@cost", clientInfo.cost);
+						command.Parameters.AddWithValue("@id", last_id);
 
-                        command.ExecuteNonQuery();
+						command.ExecuteNonQuery();
 					}
                 }
 
@@ -61,7 +86,7 @@ namespace MyApp.Pages.Entries
             clientInfo.Name = ""; clientInfo.service = ""; clientInfo.cost = 0.0M;
             successMessage = "New Client added successfully.";
 
-            Response.Redirect("/Clients/Index");
+            Response.Redirect("/Entries/Index");
         }
     }
 }

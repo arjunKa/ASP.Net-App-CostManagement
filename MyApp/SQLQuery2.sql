@@ -22,7 +22,7 @@ VALUES
 ('arjun', 'king')
 use Billing_db
 CREATE TABLE billings (
-    id INT NOT NULL  IDENTITY,
+    id INT NOT NULL,
 	username VARCHAR (15) NOT NULL,
     bill_name VARCHAR (50) NOT NULL,
 	service VARCHAR (50) NULL,
@@ -32,3 +32,4 @@ CREATE TABLE billings (
 	FOREIGN KEY (username) REFERENCES users(username)
 
 );
+

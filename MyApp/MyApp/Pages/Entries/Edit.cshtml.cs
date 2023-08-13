@@ -99,7 +99,7 @@ namespace MyApp.Pages.Entries
 				return;
 			}
 
-			Response.Redirect("/Clients/Index");
+			Response.Redirect("/Entries/Index");
 
 		}
 

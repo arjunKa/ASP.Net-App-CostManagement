@@ -6,17 +6,18 @@
 @{
     try
     {
+        String username = HttpContext.Session.GetString("username");
         String connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["myAppDBCS"].ConnectionString;
         String id = Request.Query["id"];
         using (SqlConnection connection = new SqlConnection(connectionString))
         {
             connection.Open();
-            String sql = "DELETE FROM clients WHERE id=@id";
+            String sql = "DELETE FROM billings WHERE username=@username AND id=@id";
 
             using (SqlCommand command = new SqlCommand(sql, connection))
             {
                 command.Parameters.AddWithValue("@id", id);
-
+                command.Parameters.AddWithValue("@username", username);
 
                 command.ExecuteNonQuery();
             }
@@ -26,7 +27,7 @@
     {
 
     }
-    Response.Redirect("/Clients/Index");
+    Response.Redirect("/Entries/Index");
 
 
 
