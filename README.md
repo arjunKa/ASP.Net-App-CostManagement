@@ -1,4 +1,4 @@
-# ASP.Net-App-CostManagement
+# ASP.Net-App-CostManagement App
 
 ## Webpage: https://managecostapp.azurewebsites.net/
 
